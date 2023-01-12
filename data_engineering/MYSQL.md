@@ -54,3 +54,48 @@ mysql -u root -p
 		- ex. `ALTERT TABLE customer_db CHANGE COLUMN model_type  modle_name VARCHAR(20) NOT NULL;`
 	- ALTER TABLE {테이블명} DROP COLUMN {삭제할칼럼명}: 테이블 칼럼 삭제
 		- ex. `ALTERT TABLE customer_db DROP COLUMN modle_name;
+
+
+#### 3. SQL 명령어 - DML
+
+1. Create (데이터 생성)
+- 기본: INSERT INTO
+	- INSTERT INTO {테이블명} ({칼럼명}) VALUES (값, 값, 값...); : 특정 칼럼에 특정 데이터 넣기
+		- ex. `INSERT INTO mytable (name, model_type) VALUES ('i7', '8800')`
+
+2. Read (데이터 읽기)
+- 기본: SELECT FROM
+	- SELECT {읽고 싶은 컬럼명} FROM {테이블명} : 테이블의 레코드 읽어오기
+		- ex. `SELECT * FROM mytable : mytable 테이블의 전체 레코드 읽어오기`
+		- ex. `SELECT name, model_type FROM mytable` 
+	- SELECT {읽고 싶은 컬럼명} AS {바꿀컬럼이름} FROM {테이블명} : 테이블의 특정 컬럼을 읽어오되 지정한 이름으로 다르게 가져오기
+		- ex. `SELECT name AS myname, type AS mytype FROM mytable`
+	- 조건문 WHERE : 조건에 맞는 데이터만 소팅해서 읽어오기
+		- 비교연산자인 <, >, = 사용 가능
+		- 논리연산자인 AND OR 사용 가능
+		- `SELECT name FROM mytable WHERE id <= 5 AND price < 3000;`
+	- LIKE: 부분 일치 데이터를 읽음 (= 는 전체가 다 맞아야 하고, LIKE는 부분일치. 약간 정규표현식 느낌)
+		- '가%': '가'로 시작하는 데이터
+		- '%가': '가'로 끝나는 데이터
+		- '%가%': '가'가 들어가 있는 모든 데이터
+		- '가__': '가'뒤에 두 텍스트가 있는 경우
+			- ex. `SELECT name FROM mytable WHERE name LIKE '%가'`
+	- ORDER BY {칼럼이름}: 데이터를 정렬해서 읽어오기
+		- DESC: 내림차순으로 / ASC: 오름차순으로
+			- ex. `SELECT name FROM mytable WHERE id > 7 AND ID < 9 ORDER BY id ASC`
+	- LIMIT: 조건에 맞는 데이터 중 일부만 가져오는 (head랑 비슷)
+		- ex. `SELECT name AS myname FROM mytable WHERE name LIKE '%나%' LIMIT 5;`
+- 조건문 순서는 WHERE -> LIKE -> ORDER BY -> LIMIT
+
+
+3. Update (데이터 수정)
+- 기본: UPDATE SET
+	- Pandas 값 업데이트 명령문 작성이랑 좀 비슷한듯
+	- UPDATE {테이블명} SET {수정하고싶은칼럼명} = {수정하고 싶은 값} WHERE {특정 칼럼} = {값}
+		- ex. `UPDATE mytable SET name='i7', model_type='4132' WHERE id=3;`
+
+4. DELETE (데이터 삭제)
+- 기본: DELETE FROM 
+	- DELETE FROM {테이블명} WHERE ~
+		- 애초에 RDBMS에서 데이터를 삭제한다는 것은 행 자체를 지운다는 뜻이기 때문에 DELETE 다음에 바로 FROM이 나오는듯
+		- ex. `DELETE FROM mytable WHERE id=3;`
