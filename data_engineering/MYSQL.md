@@ -99,3 +99,15 @@ mysql -u root -p
 	- DELETE FROM {테이블명} WHERE ~
 		- 애초에 RDBMS에서 데이터를 삭제한다는 것은 행 자체를 지운다는 뜻이기 때문에 DELETE 다음에 바로 FROM이 나오는듯
 		- ex. `DELETE FROM mytable WHERE id=3;`
+
+
+#### 4. SQL 명령어 - DCL
+- MYSQL 사용자 확인, 추가, 비밀번호 변경, 삭제
+	- `create user '{만들고자하는아이디}'@localhost identified by '{비밀번호}'` : 로컬에서만 접속 가능한 userid 생성
+	- `create user '{만들고자하는아이디}'@'%' identified by '{비밀번호}'` : 모든 호스트에서 접속 가능한 userid 생성
+	- `SET PASSWORD FOR '{유저아이디}'@'%' = '{신규비밀번호}'`
+	- `mysql > drop user '{userid}'@'%';` : 사용자 삭제
+- MYSQL 접속 허용 관련 설정
+	- `mysql > SHOW GRANTS for {아이디}` : 현재 부여된 권한 확인하기
+	- `mysql > GRANT ALL ON DATABASES.TABLE to 'root'@localhost`: 로컬에서만 접속 허용
+	- `mysql > GRANT SELECT, UPDATE ON DATABASES.TABLE to 'root'@localhost` : 특정권한만 부여 (select, update 만)
